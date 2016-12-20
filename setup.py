@@ -14,8 +14,10 @@ with open(os.path.join(CURRENT_PATH, 'requirements.txt')) as f:
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
+packages = find_packages()
+
 setup(
-    name='django-onthefly',
+    name='onthefly',
     version=__version__,
     description='Change Django Settings On the Fly',
     long_description=README,
@@ -26,6 +28,6 @@ setup(
     author_email='bbartu.demirci@gmail.com',
     license='MIT',
     keywords='django,settings,change django settings',
-    packages=find_packages(),
-    install_requires=required
+    packages=packages,
+    install_requires=required,
 )
