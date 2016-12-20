@@ -3,9 +3,9 @@ backend_registry = {}
 
 class Registry(type):
     def __new__(mcs, clsname, bases, attrs):
-        new_class = super(Registry, mcs).__new__(mcs, clsname, bases, attrs)
+        m = type.__new__(mcs, clsname, bases, attrs)
         backend_registry[clsname] = mcs
-        return new_class
+        return m
 
 
 class BaseBackend(object):
