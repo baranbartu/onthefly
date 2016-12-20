@@ -9,7 +9,6 @@ class RedisBackend(BaseBackend):
         super(RedisBackend, self).__init__(options, **kwargs)
 
     def get_all_fields(self):
-        return []
         fields_dumped = self.client.hget(self.bucket_prefix, 'fields')
         return json.loads(fields_dumped) if fields_dumped else []
 

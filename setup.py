@@ -20,7 +20,8 @@ setup(
     description='Change Django Settings On the Fly',
     long_description=README,
     url='https://github.com/baranbartu/onthfly',
-    download_url='https://github.com/baranbartu/onthfly/tarball/%s' % __version__,
+    download_url='https://github.com/baranbartu/onthfly/tarball/%s' % (
+        __version__,),
     author='Baran Bartu Demirci',
     author_email='bbartu.demirci@gmail.com',
     license='MIT',
