@@ -1,9 +1,22 @@
+backend_registry = {}
+
+
+class Registry(type):
+    def __new__(mcs, clsname, bases, attrs):
+        new_class = super(Registry, mcs).__new__(mcs, clsname, bases, attrs)
+        backend_registry[clsname] = mcs
+        return new_class
+
+
 class BaseBackend(object):
-    bucket_prefix = 'DJONTHEFLY'
+    __metaclass__ = Registry
+
+    bucket_prefix = 'ONTHEFLY'
 
     def __init__(self, options, original=None):
         self.options = options
         self.original = original
+        backend_registry[type(self).__name__] = self
 
     def get_value_from_original_settings(self, name):
         return getattr(self.original, name)

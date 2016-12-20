@@ -1,4 +1,4 @@
-VERSION = (0, 0, 4)
+VERSION = (0, 0, 5)
 __version__ = '.'.join(map(str, VERSION))
 
-default_app_config = 'djonthelfy.apps.DjOntheflyConfig'
+default_app_config = 'onthelfy.apps.OntheflyConfig'
