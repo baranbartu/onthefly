@@ -17,7 +17,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 packages = find_packages()
 
 setup(
-    name='onthefly',
+    name='django-onthefly',
     version=__version__,
     description='Change Django Settings On the Fly',
     long_description=README,
