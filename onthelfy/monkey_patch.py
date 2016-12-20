@@ -1,16 +1,16 @@
 from django import conf
-from onthelfy.backend import backend_registry
+from onthelfy.utils import load_class
 
 
 class OnTheFlySettings(object):
     def __init__(self, decoratee):
         self._decoratee = decoratee
         configuration = getattr(self._decoratee, 'ONTHEFLY', {
-            'BACKEND': 'RedisBackend',
+            'BACKEND': 'onthefly.backend.redis_backend.RedisBackend',
             'OPTIONS': {'URL': 'redis://localhost:6379/15'}})
         backend = configuration['BACKEND']
         options = configuration['OPTIONS']
-        backend_class = backend_registry[backend]
+        backend_class = load_class(backend)
         self.backend = backend_class(options, original=decoratee)
 
     def __getattr__(self, name):
