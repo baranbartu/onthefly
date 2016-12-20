@@ -1,10 +1,10 @@
 from django.apps import AppConfig
 
-from .monkey_patch import patch
+from djonthelfy.monkey_patch import patch
 
 
-class OntheflyConfig(AppConfig):
-    name = 'onthelfy'
+class DjOntheflyConfig(AppConfig):
+    name = 'djonthelfy'
     patched = False
 
     def ready(self):

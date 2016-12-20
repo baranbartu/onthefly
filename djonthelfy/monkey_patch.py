@@ -2,11 +2,11 @@ from django import conf
 from utils import load_class
 
 
-class OnTheFlySettings(object):
+class DjOnTheFlySettings(object):
     def __init__(self, decoratee):
         self._decoratee = decoratee
-        configuration = getattr(self._decoratee, 'ONTHEFLY', {
-            'BACKEND': 'onthefly.backend.redis_backend.RedisBackend',
+        configuration = getattr(self._decoratee, 'DJONTHEFLY', {
+            'BACKEND': 'djonthefly.backend.redis_backend.RedisBackend',
             'OPTIONS': {'URL': 'redis://localhost:6379/15'}})
         backend_path = configuration['BACKEND']
         options = configuration['OPTIONS']
@@ -25,4 +25,4 @@ class OnTheFlySettings(object):
 
 
 def patch():
-    conf.settings = OnTheFlySettings(conf.settings)
+    conf.settings = DjOnTheFlySettings(conf.settings)

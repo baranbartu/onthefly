@@ -1,5 +1,5 @@
 class BaseBackend(object):
-    bucket_prefix = 'ONTHEFLY'
+    bucket_prefix = 'DJONTHEFLY'
 
     def __init__(self, options, original=None):
         self.options = options
