@@ -1,0 +1,146 @@
+{% extends "admin/base_site.html" %}
+{% load admin_static %}
+
+{% block title %}Onthefly Settings {{block.super}}{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css"
+      href="{% static 'admin/css/forms.css' %}"/>
+{% endblock extrastyle %}
+
+{% block content %}
+<div id="content">
+    <h1>Onthefly Settings Configuration</h1>
+    <div id="content-main">
+        <fieldset class="module">
+            <div class="form-row field-settings_original">
+                <div>
+                    <label class="required" for="id_settings_original">Original
+                        Settings:</label>
+
+                    <select id="id_settings_original" name="settings_original">
+                        <option value="">---------</option>
+                        {% for key in original_settings %}
+                        <option value="{{ key }}">{{ key }}</option>
+                        {% endfor %}
+                    </select>
+                    <button onclick="add_field();"> Add</button>
+                </div>
+            </div>
+        </fieldset>
+
+        <h2>Onthefly Settings</h2>
+        <fieldset class="module aligned">
+            <div class="form-row field-code">
+                {% for key, value in onthefly_settings.items %}
+                <div>
+                    <label class="required" for="id_{{key}}">{{key}}</label>
+
+                    <input class="vTextField" id="id_{{key}}" maxlength="255"
+                           name="{{key}}" type="text" value="{{value}}">
+
+                    <button onclick="set_value('{{key}}','id_{{key}}');"> Save
+                        Changes
+                    </button>
+                    <button onclick="delete_field('{{key}}');"> Delete</button>
+                </div>
+                {% endfor %}
+                {% if not onthefly_settings %}
+                <p>There is no ONTHEFLY settings!</p>
+                {% endif %}
+            </div>
+        </fieldset>
+    </div>
+</div>
+<script>
+    function add_field() {
+        var name = document.getElementById('id_settings_original').value;
+        var form = document.createElement('form');
+        form.style = 'display:none;'
+        var element1 = document.createElement('input');
+        var element2 = document.createElement('input');
+        var element3 = document.createElement('input');
+
+        form.method = 'POST';
+        form.action = window.location.pathname;
+
+        element1.name = 'actiontype';
+        element1.value = 'add_field';
+        form.appendChild(element1);
+
+        element2.name = 'name';
+        element2.value = name;
+        form.appendChild(element2);
+
+        element3.name = 'csrfmiddlewaretoken';
+        element3.value = '{{csrf_token}}';
+        form.appendChild(element3);
+
+        document.body.appendChild(form);
+
+        form.submit();
+    }
+
+    function delete_field(name) {
+        var form = document.createElement('form');
+        form.style = 'display:none;'
+        var element1 = document.createElement('input');
+        var element2 = document.createElement('input');
+        var element3 = document.createElement('input');
+
+        form.method = 'POST';
+        form.action = window.location.pathname;
+
+        element1.name = 'actiontype';
+        element1.value = 'delete_field';
+        form.appendChild(element1);
+
+        element2.name = 'name';
+        element2.value = name;
+        form.appendChild(element2);
+
+        element3.name = 'csrfmiddlewaretoken';
+        element3.value = '{{csrf_token}}';
+        form.appendChild(element3);
+
+        document.body.appendChild(form);
+
+        form.submit();
+    }
+
+    function set_value(name, elementId) {
+        var value = document.getElementById(elementId).value;
+        var form = document.createElement('form');
+        form.style = 'display:none;'
+        var element1 = document.createElement('input');
+        var element2 = document.createElement('input');
+        var element3 = document.createElement('input');
+        var element4 = document.createElement('input');
+
+        form.method = 'POST';
+        form.action = window.location.pathname;
+
+        element1.name = 'actiontype';
+        element1.value = 'set_value';
+        form.appendChild(element1);
+
+        element2.name = 'name';
+        element2.value = name;
+        form.appendChild(element2);
+
+        element3.name = 'csrfmiddlewaretoken';
+        element3.value = '{{csrf_token}}';
+        form.appendChild(element3);
+
+        element4.name = 'value';
+        element4.value = value;
+        form.appendChild(element4);
+
+        document.body.appendChild(form);
+
+        form.submit();
+    }
+
+</script>
+{% endblock content %}

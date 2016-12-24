@@ -12,15 +12,9 @@ class RedisBackend(BaseBackend):
         fields_dumped = self.client.hget(self.bucket_prefix, 'fields')
         return json.loads(fields_dumped) if fields_dumped else []
 
-    def add_field(self, name):
-        fields_dumped = self.client.hget(self.bucket_prefix, 'fields')
-        fields = json.loads(fields_dumped) if fields_dumped else []
-        fields.append(name)
+    def set_fields(self):
         self.client.hset(
-            self.bucket_prefix, 'fields', json.dumps(list(set(fields))))
-
-        original_value = self.get_value_from_original_settings(name)
-        self.set_value(name, original_value)
+            self.bucket_prefix, 'fields', json.dumps(self._all_fields))
 
     def set_value(self, name, value):
         self.client.hset(
@@ -31,17 +25,14 @@ class RedisBackend(BaseBackend):
         return json.loads(dumped)
 
     def get_all_values(self):
-        fields = self.get_all_fields()
+        if not self.all_fields:
+            return {}
         values = self.client.hmget(
-            self.bucket_prefix, fields)
+            self.bucket_prefix, self.all_fields)
         all_values = {}
-        for i, field in enumerate(fields):
+        for i, field in enumerate(self.all_fields):
             all_values[field] = json.loads(values[i])
         return all_values
 
-    def delete(self, name):
-        fields = self.get_all_fields()
-        fields.pop(name)
-        self.client.hset(
-            self.bucket_prefix, 'fields', json.dumps(list(set(fields))))
+    def delete_value(self, name):
         self.client.hdel(self.bucket_prefix, name)

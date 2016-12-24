@@ -1,4 +1,5 @@
 from django import conf
+from django.views.debug import get_safe_settings
 from onthefly.utils import load_class
 
 
@@ -14,7 +15,7 @@ class OnTheFlySettings(object):
         self.backend = backend_class(options, original=decoratee)
 
     def __getattr__(self, name):
-        if name in self.backend.get_all_fields():
+        if name in self.backend.all_fields:
             return self.backend.get_value(name)
         else:
             return getattr(self._decoratee, name)
@@ -22,6 +23,17 @@ class OnTheFlySettings(object):
     @property
     def __module__(self):
         return self._decoratee.__module__
+
+    @property
+    def get_original_settings_without_onthefly(self):
+        all_settings = get_safe_settings().keys()
+        original_settings_without_onthefly = set(all_settings).difference(
+            self.backend.all_fields)
+        return list(original_settings_without_onthefly)
+
+    @property
+    def get_onthefly_settings(self):
+        return self.backend.get_all_values()
 
 
 def patch():
