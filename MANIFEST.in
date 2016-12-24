@@ -1,3 +1,3 @@
 include README.md
 include LICENSE
-include onthefly/templates/*
+include onthefly/templates/admin/onthefly_settings.html
