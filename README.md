@@ -1,5 +1,5 @@
 # onthefly
-Change Django Settings on Custom admin page at "RUNTIME".
+##### Change Django Settings on Custom admin page at "RUNTIME".
 
 # Installation
 
@@ -27,5 +27,8 @@ onthefly
 
 # CONTRIBUTE
 ##### All contributions are very welcomed!
+
+# SCREENSHOT
+![ScreenShot](https://raw.github.com/baranbartu/onthefly/master/screenshot.png)
 
 
