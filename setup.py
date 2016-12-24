@@ -25,6 +25,8 @@ setup(
     license='MIT',
     keywords='django,settings,change django settings',
     packages=packages,
+    package_data={'onthefly': ['templates/admin/onthefly_settings.html']},
+    include_package_data=True,
     install_requires=[
         'Django>=1.7',
         'redis>=2.10.5'
