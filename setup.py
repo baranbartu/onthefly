@@ -3,7 +3,7 @@
 
 import os
 from setuptools import setup, find_packages
-from onthelfy import __version__
+from onthefly import __version__
 
 README = open(os.path.join(os.path.dirname(__file__), 'README.md')).read()
 
