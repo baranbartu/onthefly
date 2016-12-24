@@ -1,5 +1,5 @@
 from django import conf
-from onthelfy.utils import load_class
+from onthefly.utils import load_class
 
 
 class OnTheFlySettings(object):
