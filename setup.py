@@ -29,6 +29,7 @@ setup(
     include_package_data=True,
     install_requires=[
         'Django>=1.7',
+        'django-adminplus>=0.5',
         'redis>=2.10.5'
     ]
 )

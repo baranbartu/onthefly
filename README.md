@@ -1,5 +1,5 @@
 # onthefly
-##### Change Django Settings on Custom admin page at "RUNTIME".
+Change Django Settings on Custom admin page at "RUNTIME".
 
 # Installation
 
@@ -9,15 +9,38 @@ pip install django-onthefly
 
 # Configuration
 
-##### Add top of the INSTALLED_APPS
+##### adminplus configuration (INSTALLED_APPS)
+
+Replace 'django.contrib.admin' with 'django.contrib.admin.apps.SimpleAdminConfig'
+Add 'adminplus' after SimpleAdminConfig
 
 ```bash
-onthefly
+'django.contrib.admin.apps.SimpleAdminConfig',
+# ...
+'adminplus',
+# ...
+```
+
+##### onthefly configuration (INSTALLED_APPS)
+
+Add 'onthefly' at the bottom of the list.
+
+##### Final INSTALLED_APPS
+
+```bash
+INSTALLED_APPS = (
+        'django.contrib.admin.apps.SimpleAdminConfig', (instead of 'django.contrib.admin')
+        # ...
+        'adminplus',
+        # ...
+        # ...
+        'onthefly'
+    )
 ```
 
 # Usage
-##### go to django admin panel and see Onthefly Settings on bottom of the page as Custom Views
-##### Add, Delete or Change settings at runtime.
+go to django admin panel and see Onthefly Settings on bottom of the page as Custom Views
+Add, Delete or Change settings at runtime.
 
 
 # TODOs
