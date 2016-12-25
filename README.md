@@ -29,13 +29,31 @@ Add 'onthefly' at the bottom of the list.
 
 ```bash
 INSTALLED_APPS = (
-        'django.contrib.admin.apps.SimpleAdminConfig', (instead of 'django.contrib.admin')
-        # ...
-        'adminplus',
-        # ...
-        # ...
-        'onthefly'
+    'django.contrib.admin.apps.SimpleAdminConfig', (instead of 'django.contrib.admin')
+    # ...
+    'adminplus',
+    # ...
+    # ...
+    'onthefly'
     )
+```
+
+##### You need to change urls.py like below as well
+
+```bash
+    # urls.py
+    from django.contrib import admin
+    from adminplus.sites import AdminSitePlus
+
+    admin.site = AdminSitePlus()
+    admin.autodiscover()
+
+    urlpatterns = [
+        # ...
+        # Include the admin URL conf as normal.
+        (r'^admin', include(admin.site.urls)),
+        # ...
+    ]
 ```
 
 # Usage
