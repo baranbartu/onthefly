@@ -1,5 +1,8 @@
 import os
 import imp
+import json
+
+SUPPORTED_TYPES = [int, float, str, bool, dict, list]
 
 
 def load_class(path):
@@ -28,3 +31,20 @@ def load_class(path):
                                                                 klass_name))
 
     return klass
+
+
+def convert(value, _type):
+    # convert builtin types: int,str,float,bool,dict,list
+    if _type == str:
+        return value
+    elif _type == bool:
+        if value == 'True':
+            return True
+        elif value == 'False':
+            return False
+    elif _type in [list, dict]:
+        return json.loads(value)
+    elif _type == int:
+        return int(value)
+    elif _type == float:
+        return float(value)

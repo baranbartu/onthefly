@@ -16,14 +16,11 @@ class BaseBackend(object):
         if name not in self.all_fields:
             self._all_fields.append(name)
             self.set_fields()
-            original_value = self.get_value_from_original_settings(name)
-            self.set_value(name, original_value)
 
     def delete_field(self, name):
         if name in self._all_fields:
             self._all_fields.remove(name)
             self.set_fields()
-            self.delete_value(name)
 
     def get_value_from_original_settings(self, name):
         return getattr(self.original, name)

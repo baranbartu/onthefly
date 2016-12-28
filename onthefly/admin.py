@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.views.generic import TemplateView
 from django.conf import settings
+from django.contrib import messages
+from onthefly.utils import SUPPORTED_TYPES, convert
 
 
 class AppSettingsView(TemplateView):
@@ -23,11 +25,38 @@ class AppSettingsView(TemplateView):
         action_type = request.POST.get('actiontype')
         name = request.POST.get('name')
         if action_type == 'add_field':
-            settings.backend.add_field(name)
+            original_value = settings.backend.get_value_from_original_settings(
+                name)
+            if original_value is None:
+                messages.error(
+                    request, 'NoneType objects can not be changed at runtime!')
+            elif type(original_value) not in SUPPORTED_TYPES:
+                messages.error(
+                    request,
+                    '%s is not supported to add ONTHEFLY settings!' % (
+                        type(original_value)), )
+            else:
+                settings.backend.add_field(name)
+                settings.backend.set_value(name, original_value)
         elif action_type == 'delete_field':
             settings.backend.delete_field(name)
+            settings.backend.delete_value(name)
         elif action_type == 'set_value':
-            settings.backend.set_value(name, request.POST.get('value'))
+            original_value = settings.backend.get_value_from_original_settings(
+                name)
+            if type(original_value) not in SUPPORTED_TYPES:
+                messages.error(
+                    request,
+                    '%s is not supported to add ONTHEFLY settings!' % (
+                        type(original_value)), )
+            value = request.POST.get('value')
+            converted_value = convert(value, type(original_value))
+            if converted_value is None:
+                messages.error(
+                    request,
+                    'Original value type is different than current type!')
+            else:
+                settings.backend.set_value(name, converted_value)
         request.method = 'GET'
         return self.get(request, *args, **kwargs)
 

@@ -1,5 +1,6 @@
 {% extends "admin/base_site.html" %}
 {% load admin_static %}
+{% load onthefly %}
 
 {% block title %}Onthefly Settings {{block.super}}{% endblock %}
 
@@ -38,7 +39,7 @@
                     <label class="required" for="id_{{key}}">{{key}}</label>
 
                     <input class="vTextField" id="id_{{key}}" maxlength="255"
-                           name="{{key}}" type="text" value="{{value}}">
+                           name="{{key}}" type="text" value="{{value|jsondumps}}">
 
                     <button onclick="set_value('{{key}}','id_{{key}}');"> Save
                         Changes
