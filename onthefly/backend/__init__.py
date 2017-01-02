@@ -31,7 +31,7 @@ class AbstractBackend(Backend):
 
     @property
     def all_fields(self):
-        if not self._all_fields:
+        if self._all_fields is None:
             self._all_fields = self.get_fields()
         return self._all_fields
 
