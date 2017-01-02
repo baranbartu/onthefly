@@ -33,7 +33,7 @@ class OnTheFlySettings(object):
 
     @property
     def get_onthefly_settings(self):
-        return self.backend.get_all_values()
+        return self.backend.get_values()
 
 
 def patch():
