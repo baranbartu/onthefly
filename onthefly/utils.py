@@ -34,17 +34,15 @@ def load_class(path):
 
 
 def convert(value, _type):
-    # convert builtin types: int,str,float,bool,dict,list
-    if _type == str:
-        return value
-    elif _type == bool:
-        if value == 'True':
-            return True
-        elif value == 'False':
-            return False
-    elif _type in [list, dict]:
-        return json.loads(value)
-    elif _type == int:
-        return int(value)
-    elif _type == float:
-        return float(value)
+    # convert builtin types: int,str,unicode,float,bool,dict,list
+    types = {
+        str: lambda x: x,
+        unicode: lambda x: str(x),
+        bool: lambda x: x == 'True',
+        list: lambda x: json.loads(x),
+        dict: lambda x: json.loads(x),
+        int: lambda x: int(x),
+        float: lambda x: float(x),
+    }
+    cast_func = types.get(_type)
+    return cast_func(value) if cast_func else None

@@ -8,31 +8,31 @@ class RedisBackend(AbstractBackend):
         self.client = Redis.from_url(options['URL'])
         super(RedisBackend, self).__init__(options, **kwargs)
 
-    def _set_value(self, name, value):
+    def set(self, name, value):
         self.client.hset(
             self.bucket_prefix, name, json.dumps(value))
 
-    def _get_value(self, name):
+    def get(self, name):
         dumped = self.client.hget(self.bucket_prefix, name)
         return json.loads(dumped)
 
-    def _delete_value(self, name):
+    def delete(self, name):
         self.client.hdel(self.bucket_prefix, name)
 
     def set_fields(self):
         self.client.hset(
-            self.bucket_prefix, 'fields', json.dumps(self._all_fields))
+            self.bucket_prefix, 'fields', json.dumps(self.field_registry))
 
-    def get_fields(self):
+    def fields(self):
         fields_dumped = self.client.hget(self.bucket_prefix, 'fields')
         return json.loads(fields_dumped) if fields_dumped else []
 
-    def get_values(self):
-        if not self.all_fields:
+    def values(self):
+        if not self.get_fields():
             return {}
         values = self.client.hmget(
-            self.bucket_prefix, self.all_fields)
+            self.bucket_prefix, self.get_fields())
         all_values = {}
-        for i, field in enumerate(self.all_fields):
+        for i, field in enumerate(self.get_fields()):
             all_values[field] = json.loads(values[i])
         return all_values

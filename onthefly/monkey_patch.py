@@ -15,7 +15,7 @@ class OnTheFlySettings(object):
         self.backend = backend_class(options, original=decoratee)
 
     def __getattr__(self, name):
-        if name in self.backend.all_fields:
+        if name in self.backend.get_fields():
             return self.backend.get_value(name)
         else:
             return getattr(self._decoratee, name)
@@ -28,7 +28,7 @@ class OnTheFlySettings(object):
     def get_original_settings_without_onthefly(self):
         all_settings = get_safe_settings().keys()
         original_settings_without_onthefly = set(all_settings).difference(
-            self.backend.all_fields)
+            self.backend.get_fields())
         return list(original_settings_without_onthefly)
 
     @property
