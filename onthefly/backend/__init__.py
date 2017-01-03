@@ -37,7 +37,7 @@ class AbstractBackend(Backend):
         return self.field_registry
 
     def add_field(self, name):
-        if name not in self.get_fields:
+        if name not in self.get_fields():
             self.field_registry.append(name)
             self.set_fields()
 

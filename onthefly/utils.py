@@ -2,7 +2,7 @@ import os
 import imp
 import json
 
-SUPPORTED_TYPES = [int, float, str, bool, dict, list]
+SUPPORTED_TYPES = [int, float, str, unicode, bool, dict, list]
 
 
 def load_class(path):
