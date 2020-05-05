@@ -14,6 +14,9 @@ class RedisBackend(AbstractBackend):
 
     def get(self, name):
         dumped = self.client.hget(self.bucket_prefix, name)
+        if not dumped:
+            print(f'onthefly warning: {name} is None')
+            return None
         return json.loads(dumped)
 
     def delete(self, name):
@@ -34,5 +37,10 @@ class RedisBackend(AbstractBackend):
             self.bucket_prefix, self.get_fields())
         all_values = {}
         for i, field in enumerate(self.get_fields()):
-            all_values[field] = json.loads(values[i])
+            if values[i]:
+                value = json.loads(values[i])
+            else:
+                print(f'onthefly warning: {field} is None')
+                value = None
+            all_values[field] = value
         return all_values
