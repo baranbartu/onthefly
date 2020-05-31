@@ -15,7 +15,7 @@ class AppSettingsView(TemplateView):
         context = super(AppSettingsView, self).get_context_data(
             *args, **kwargs)
         context.update({
-            'original_settings': (
+            'original_settings': sorted(
                 settings.get_original_settings_without_onthefly),
             'onthefly_settings': settings.get_onthefly_settings
         })
